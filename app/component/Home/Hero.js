@@ -35,19 +35,19 @@ export default function Hero() {
               <img
                 className="common-absoulute ab-1 d-none d-sm-block blurFilter"
                 // src="assets/img/slider/slider-shoe-2.png"
-                src="assets/img/boxer/boxer-small.png"
+                src="assets/img/boxer/boxer-small-min.png"
                 alt=""
-                height={"490px"}
-                width={"410px"}
+                height={"350px"}
+                width={"350px"}
               />
               <img
                 className="common-absoulute ab-2 d-none d-sm-block"
                 // src="assets/img/slider/slider-shoe-1.png"
-                src="assets/img/boxer/013-rotated.png"
+                src="assets/img/boxer/boxer-large-min.png"
                 // src="assets/img/boxer/040.png"
                 alt=""
-                height={"1000px"}
-                width={"744px"}
+                height={"900px"}
+                width={"900px"}
               />
               <img
                 className="common-absoulute ab-3"

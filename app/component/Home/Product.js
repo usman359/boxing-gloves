@@ -10,6 +10,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
 import { useShoppingCart } from "use-shopping-cart";
 
+let currentCartIndex;
+
 export default function Product() {
   const [productDetail, setProductDetail] = useState({});
   const [quantity, setQuantity] = useState(1); // State for quantity
@@ -22,9 +24,11 @@ export default function Product() {
     setQuantity(parseInt(e.target.value, 10));
   };
 
-  const handleSetOpenDialog = (details) => {
+  const handleSetOpenDialog = (details, index) => {
     setOpenDialog(true);
     setProductDetail(details);
+    currentCartIndex = index;
+    // console.log(currentCart);
   };
 
   return (
@@ -44,7 +48,7 @@ export default function Product() {
 
         <div className="container">
           <div className="row">
-            {products.map((product) => (
+            {products.map((product, index) => (
               <div
                 key={product.id}
                 className="col-xl-4 col-lg-4 col-md-6 col-sm-12"
@@ -59,7 +63,7 @@ export default function Product() {
                       <a
                         className="view"
                         onClick={(event) => {
-                          handleSetOpenDialog(product);
+                          handleSetOpenDialog(product, index);
                         }}
                       >
                         <img
@@ -152,7 +156,19 @@ export default function Product() {
               <div className="col-xl-5 col-lg-5 col-md-5">
                 <div className="quickview">
                   <div className="quickview__thumb">
-                    <img src={productDetail?.images?.primary} alt="" />
+                    {/* <img src={productDetail?.images?.primary} alt="" /> */}
+                    {productcolor ? (
+                      <img
+                        src={
+                          currentCartIndex === 0
+                            ? `assets/img/product/with_laces/${productcolor}.png`
+                            : `assets/img/product/without_laces/${productcolor}.png`
+                        }
+                        alt="Boxing gloves with and without laces"
+                      />
+                    ) : (
+                      <img src={productDetail?.images?.primary} alt="" />
+                    )}
                   </div>
                 </div>
               </div>
@@ -163,7 +179,7 @@ export default function Product() {
                   </div>
                   <div className="viewcontent__price">
                     <h4>
-                      <span>$</span>
+                      <span>€</span>
                       {productDetail.priceRange}
                     </h4>
                   </div>
@@ -269,7 +285,7 @@ export default function Product() {
                         ? "Already Added!"
                         : !productcolor || !productsize
                         ? "Please select a color and a Size"
-                        : "add to cart"}
+                        : "Add to cart"}
                     </Button>
                   </Box>
                   {/* <div className="viewcontent__footer">
@@ -304,8 +320,10 @@ const products = [
     images: {
       // primary: "assets/img/product/glove2.jpg",
       // secondary: "assets/img/product/glove2.jpg",
-      primary: "assets/img/product/boxer-product-5.png",
-      secondary: "assets/img/product/boxer-product-5.png",
+      // primary: "assets/img/product/boxer-product-5.png",
+      // secondary: "assets/img/product/boxer-product-5.png",
+      primary: "assets/img/product/with_laces/black.png",
+      secondary: "assets/img/product/with_laces/black.png",
     },
   },
   {
@@ -317,8 +335,8 @@ const products = [
     images: {
       // primary: "assets/img/product/glove1.jpg",
       // secondary: "assets/img/product/glove1.jpg",
-      primary: "assets/img/product/boxer-product-5.png",
-      secondary: "assets/img/product/boxer-product-5.png",
+      primary: "assets/img/product/without_laces/black.png",
+      secondary: "assets/img/product/without_laces/black.png",
     },
   },
 
