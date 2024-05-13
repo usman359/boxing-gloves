@@ -7,7 +7,10 @@ export default function Feature() {
         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
           <div className="fetures">
             <div className="fetures__thumb fix">
-              <a href="shop.html">
+              {/* <a href="shop.html">
+                <img src="assets/img/features/fe1.png" alt="features1" />
+              </a> */}
+              <a style={{ cursor: "pointer" }}>
                 <img src="assets/img/features/fe1.png" alt="features1" />
               </a>
             </div>
@@ -20,7 +23,8 @@ export default function Feature() {
               <p className="d-md-none d-lg-block">
                 all products
                 <span className="discount">
-                  <a href="index.html#">up to 70% off</a>
+                  {/* <a href="index.html#">up to 70% off</a> */}
+                  <a>up to 70% off</a>
                 </span>
                 limited time discount
               </p>
@@ -30,7 +34,13 @@ export default function Feature() {
         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
           <div className="fetures">
             <div className="fetures__thumb fix">
-              <a href="shop.html">
+              {/* <a href="shop.html">
+                <img
+                  src="assets/img/features/banner-home2.jpg"
+                  alt="features1"
+                />
+              </a> */}
+              <a style={{ cursor: "pointer" }}>
                 <img
                   src="assets/img/features/banner-home2.jpg"
                   alt="features1"
@@ -47,7 +57,10 @@ export default function Feature() {
         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
           <div className="fetures">
             <div className="fetures__thumb fix">
-              <a href="shop.html">
+              {/* <a href="shop.html">
+                <img src="assets/img/features/fe3.png" alt="features1" />
+              </a> */}
+              <a style={{ cursor: "pointer" }}>
                 <img src="assets/img/features/fe3.png" alt="features1" />
               </a>
             </div>
@@ -60,7 +73,8 @@ export default function Feature() {
               <p className="d-md-none d-lg-block">
                 all products
                 <span className="discount">
-                  <a href="index.html#">up to 70% off</a>
+                  {/* <a href="index.html#">up to 70% off</a> */}
+                  <a>up to 70% off</a>
                 </span>
                 limited time discount
               </p>
