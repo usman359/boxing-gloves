@@ -18,15 +18,29 @@ export const AppProvider = ({ children }) => {
     }
   }, [items]);
 
-  const addToCart = (newValue, quantity, color, size) => {
+  const addToCart = (
+    newValue,
+    quantity,
+    color,
+    size,
+    currentCartIndex,
+    selectedColorImage
+  ) => {
     setOpenDialog(false);
     // Create a new item object with quantity included
-    const newItem = { ...newValue, quantity, color, size };
+    const newItem = {
+      ...newValue,
+      quantity,
+      color,
+      size,
+      currentCartIndex,
+      selectedColorImage,
+    };
     setItems([...items, newItem]);
     setOpen(true);
   };
 
-  console.log(items);
+  // console.log(items);
 
   return (
     <AppContext.Provider

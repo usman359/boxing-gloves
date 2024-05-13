@@ -7,10 +7,15 @@ import DialogContent from "@mui/material/DialogContent";
 
 import Zoom from "@mui/material/Zoom";
 import CloseIcon from "@mui/icons-material/Close";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useShoppingCart } from "use-shopping-cart";
 
-let currentCartIndex;
+let currentCartIndex, selectedColor;
+
+const cartProducts = {
+  0: "boxing-gloves-with-laces",
+  1: "boxing-gloves-without-laces",
+};
 
 export default function Product() {
   const [productDetail, setProductDetail] = useState({});
@@ -20,6 +25,8 @@ export default function Product() {
 
   const { items, addToCart, openDialog, setOpenDialog } = useAppContext();
 
+  let selectedColorImage = `assets/img/product/${cartProducts[currentCartIndex]}/${productcolor}.png`;
+
   const handleQuantityChange = (e) => {
     setQuantity(parseInt(e.target.value, 10));
   };
@@ -28,8 +35,25 @@ export default function Product() {
     setOpenDialog(true);
     setProductDetail(details);
     currentCartIndex = index;
-    // console.log(currentCart);
+    selectedColor = productcolor;
+    // console.log(currentCartIndex);
   };
+
+  function handleKeyDown(e) {
+    const value = Number(e.target.value + e.key);
+    if (value > 25) {
+      e.preventDefault();
+    }
+  }
+
+  useEffect(
+    function () {
+      if (items.length > 0) {
+        localStorage.setItem("cartItems", JSON.stringify(items));
+      }
+    },
+    [items]
+  );
 
   return (
     <div className="categories_area pt-85 mb-150">
@@ -157,13 +181,10 @@ export default function Product() {
                 <div className="quickview">
                   <div className="quickview__thumb">
                     {/* <img src={productDetail?.images?.primary} alt="" /> */}
+
                     {productcolor ? (
                       <img
-                        src={
-                          currentCartIndex === 0
-                            ? `assets/img/product/with_laces/${productcolor}.png`
-                            : `assets/img/product/without_laces/${productcolor}.png`
-                        }
+                        src={`assets/img/product/${cartProducts[currentCartIndex]}/${productcolor}.png`}
                         alt="Boxing gloves with and without laces"
                       />
                     ) : (
@@ -204,6 +225,7 @@ export default function Product() {
                         {color.map((item) => {
                           return (
                             <ButtonBase
+                              key={item}
                               onClick={() => setProductcolor(item)}
                               sx={{
                                 background: item,
@@ -245,6 +267,9 @@ export default function Product() {
                       placeholder="1"
                       value={quantity}
                       onChange={handleQuantityChange}
+                      onKeyDown={handleKeyDown}
+                      min={1}
+                      max={25}
                     />
                   </Box>
                   <Box mb={2} mt={6} sx={{ width: "50%" }}>
@@ -252,23 +277,33 @@ export default function Product() {
                       fullWidth
                       sx={{
                         padding: "10px 15px",
-                        background: "#fc4a1a",
+                        // background: "#fc4a1a",
+                        background: `${productcolor}`,
                         color: "white !important",
                         textTransform: "capitalize",
                         textDecoration: "none",
                         fontSize: "14px",
                         fontWeight: 600,
                         "&:hover": {
-                          background: "#ff7e47", // Change background color on hover
+                          // background: "#ff7e47", // Change background color on hover
+                          background: `${productcolor}`, // Change background color on hover
                           cursor: "pointer", // Change cursor to pointer on hover
                         },
                         "&:disabled": {
-                          background: "grey", // Change background color when disabled
+                          background: "#555", // Change background color when disabled
                           cursor: "not-allowed", // Change cursor to not-allowed when disabled
                         },
                       }}
                       disabled={
-                        items.find((item) => item.id === productDetail.id) ||
+                        items.find(
+                          (item) =>
+                            item.id === productDetail.id &&
+                            item.selectedColorImage
+                              .split("/")[4]
+                              .split(".")[0] === productcolor &&
+                            item.quantity === quantity &&
+                            item.size === productsize
+                        ) ||
                         !productcolor ||
                         !productsize
                       }
@@ -277,11 +312,21 @@ export default function Product() {
                           productDetail,
                           quantity,
                           productcolor,
-                          productsize
+                          productsize,
+                          currentCartIndex,
+                          selectedColorImage
                         )
                       }
                     >
-                      {items.find((item) => item.id === productDetail.id)
+                      {items.find(
+                        (item) =>
+                          item.id === productDetail.id &&
+                          item.selectedColorImage
+                            .split("/")[4]
+                            .split(".")[0] === productcolor &&
+                          item.quantity === quantity &&
+                          item.size === productsize
+                      )
                         ? "Already Added!"
                         : !productcolor || !productsize
                         ? "Please select a color and a Size"
@@ -313,31 +358,31 @@ export default function Product() {
 const products = [
   {
     id: "price_1P1U2eRpQuDaLH0uHk04e9xo",
-    price_id: "price_1P1U2eRpQuDaLH0uHk04e9xo",
-    name: "Glove 1",
+    name: "Noya Athletic Boxing Glove With Laces",
     category: "Sports, Gloves",
     priceRange: "100",
     images: {
-      // primary: "assets/img/product/glove2.jpg",
-      // secondary: "assets/img/product/glove2.jpg",
-      // primary: "assets/img/product/boxer-product-5.png",
-      // secondary: "assets/img/product/boxer-product-5.png",
-      primary: "assets/img/product/with_laces/black.png",
-      secondary: "assets/img/product/with_laces/black.png",
+      primary: "assets/img/product/boxing-gloves-with-laces/black.png",
+      secondary: "assets/img/product/boxing-gloves-with-laces/black.png",
     },
+    blackQuantity: 25,
+    redQuantity: 25,
+    silverQuantity: 25,
+    blueQuantity: 25,
   },
   {
     id: "price_1P1VWwRpQuDaLH0umpZGGFnU",
-    price_id: "price_1P1VWwRpQuDaLH0umpZGGFnU",
-    name: "Glove 2",
+    name: "Noya Athletic Boxing Glove Without Laces",
     category: "Sports, Gloves",
     priceRange: "120",
     images: {
-      // primary: "assets/img/product/glove1.jpg",
-      // secondary: "assets/img/product/glove1.jpg",
-      primary: "assets/img/product/without_laces/black.png",
-      secondary: "assets/img/product/without_laces/black.png",
+      primary: "assets/img/product/boxing-gloves-without-laces/black.png",
+      secondary: "assets/img/product/boxing-gloves-without-laces/black.png",
     },
+    blackQuantity: 25,
+    redQuantity: 25,
+    silverQuantity: 25,
+    blueQuantity: 25,
   },
 
   // Add more dummy product objects here as needed

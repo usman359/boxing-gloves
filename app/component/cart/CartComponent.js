@@ -48,6 +48,14 @@ export default function CartComponent() {
 
     stripe.redirectToCheckout({ sessionId: data.id });
   };
+
+  function handleKeyDown(e) {
+    const value = Number(e.target.value + e.key);
+    if (value > 25) {
+      e.preventDefault();
+    }
+  }
+
   return (
     <div className="f_cart_area pt-110 mb-100">
       <div className="container">
@@ -66,11 +74,14 @@ export default function CartComponent() {
                     <td>Total</td>
                   </tr>
                   <tbody>
-                    {items.map((item) => {
+                    {items.map((item, index) => {
                       return (
                         <tr className="max-width-set">
                           <td>
-                            <img src="assets/img/desc/3-500x500.jpg" alt="" />
+                            <img
+                              src={`${items[index].selectedColorImage}`}
+                              alt=""
+                            />
                           </td>
                           <td>{item.name}</td>
                           <td>$ {item.priceRange}</td>
@@ -84,6 +95,9 @@ export default function CartComponent() {
                                   onChange={(e) =>
                                     handleQuantityChange(e, item.id)
                                   }
+                                  onKeyDown={handleKeyDown}
+                                  min={1}
+                                  max={25}
                                 />
                               </span>
                             </div>
@@ -92,11 +106,11 @@ export default function CartComponent() {
                           <td>{item.color}</td>
 
                           <td>${totalPricePerItem(item).toFixed(2)}</td>
-                          <td className="width-set">
+                          {/* <td className="width-set">
                             <IconButton onClick={() => handleRemove(item.id)}>
                               <DeleteIcon sx={{ color: "#fc4a1a" }} />
                             </IconButton>
-                          </td>
+                          </td> */}
                         </tr>
                       );
                     })}
@@ -111,18 +125,15 @@ export default function CartComponent() {
                 <table>
                   <tr className="first-child">
                     <td>Subtotal</td>
-                    <td>$ {totalSum.toFixed(2)}</td>
+                    <td>€ {totalSum.toFixed(2)}</td>
                   </tr>
                   <tr className="first-child lastchild">
                     <td>Shipping</td>
-                    <td>
-                      Enter your address to view shipping options <br />
-                      Calculate shipping
-                    </td>
+                    <td>None</td>
                   </tr>
                   <tr className="first-child">
                     <td>Total</td>
-                    <td>$ {totalSum.toFixed(2)}</td>
+                    <td>€ {totalSum.toFixed(2)}</td>
                   </tr>
                   <tr>
                     <td colspan="2">

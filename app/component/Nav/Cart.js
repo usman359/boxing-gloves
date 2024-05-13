@@ -1,13 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { Box, Button, Drawer, IconButton, Typography } from "@mui/material";
 import Link from "next/link";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRouter } from "next/navigation";
 
+let newItems = [];
+
 export default function Cart() {
   const { items, setItems, addToCart, open, setOpen } = useAppContext();
+
+  console.log(items);
+
   const router = useRouter();
   const handleClose = () => {
     setOpen(false);
@@ -16,12 +21,19 @@ export default function Cart() {
   const handleRemove = (product) => {
     const newItems = items.filter((item) => item.id !== product);
     setItems(newItems);
+    // console.log(addToCart);
   };
 
   const totalPrice = items.reduce(
     (acc, item) => acc + parseFloat(item.priceRange) * item.quantity,
     0
   );
+
+  useEffect(function () {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems"));
+    // console.log(cartItems);
+    cartItems?.length > 0 && setItems(cartItems);
+  }, []);
 
   return (
     <>
@@ -45,9 +57,13 @@ export default function Cart() {
 
                 {items.map((item) => {
                   return (
-                    <Box display="flex" gap={3} mt={2}>
+                    <Box display="flex" gap={3} mt={2} key={item.id}>
                       <Box sx={{ border: "1px solid grey" }}>
-                        <img src={item.images.primary} style={{ width: 200 }} />
+                        {/* <img src={item.images.primary} style={{ width: 200 }} /> */}
+                        <img
+                          src={item.selectedColorImage}
+                          style={{ width: 200 }}
+                        />
                       </Box>
                       <Box
                         display="flex"
@@ -89,7 +105,7 @@ export default function Cart() {
                       variant="h3"
                       sx={{ color: "#fc4a1a !important" }}
                     >
-                      $ {totalPrice}
+                      € {totalPrice}
                     </Typography>
                   </Box>
                   <Box
@@ -108,14 +124,14 @@ export default function Cart() {
                       View Cart
                     </Button>
 
-                    <Button
+                    {/* <Button
                       size="large"
                       variant="outlined"
                       sx={{ border: "1px solid #fc4a1a" }}
                       // onClick={() => router.push("/checkout")}
                     >
                       Checkout
-                    </Button>
+                    </Button> */}
                   </Box>
                 </Box>
               </Box>
